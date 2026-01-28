@@ -11,6 +11,7 @@ The dataset contains transactions made by credit cards in September 2013 by Euro
 *   **Strict Feature Selection:** Uses Random Forest importance to select the top ~24 most predictive features, reducing noise.
 *   **Ensemble Learning:** Combines **Random Forest** and **XGBoost** via a Soft Voting Classifier to maximize detection capability.
 *   **Production-Ready Structure:** Organized code into modular scripts for data processing, training, evaluation, and inference.
+*   **Ensemble Learning with tuning hyperparameter:** experimentation lab designed to automatically find the best hyperparameters for Random Forest and XGBoost models using the dataset.
 
 ---
 
