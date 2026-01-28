@@ -129,6 +129,9 @@ We optimized for **Recall** (catching as many frauds as possible) while maintain
 *   All models achieved excellent Recall (~86%), meaning they detect the vast majority of fraud attempts.
 *   The **Ensemble model** provides a robust alternative, offering slightly higher ROC-AUC stability.
 
+# <img width="1536" height="1024" alt="ChatGPT Image Jan 28, 2026, 07_20_11 PM" src="https://github.com/user-attachments/assets/96ca7c21-b342-43b6-bb33-163060727659" />
+
+
 ---
 
 ##  Dependencies
