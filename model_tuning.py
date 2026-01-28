@@ -6,34 +6,13 @@ from xgboost import XGBClassifier
 from sklearn.metrics import classification_report, roc_auc_score, confusion_matrix
 from imblearn.over_sampling import SMOTE
 from sklearn.preprocessing import StandardScaler
-import sys
-import os
-
-# Set up logging to file and console
-output_path = 'metrics/tuning_results.txt' 
-os.makedirs(os.path.dirname(output_path), exist_ok=True)
-
-class Logger(object):
-    def __init__(self):
-        self.terminal = sys.stdout
-        self.log = open(output_path, "w", encoding='utf-8')
-
-    def write(self, message):
-        self.terminal.write(message)
-        self.log.write(message)
-
-    def flush(self):
-        self.terminal.flush()
-        self.log.flush()
-
-sys.stdout = Logger()
 
 # 1. Pipeline Reconstruction (Data Load + Feature Engineering + Split + SMOTE)
 print("Setting up pipeline (Dataset -> Features -> Split -> SMOTE)...")
 
 # Load
 try:
-    df = pd.read_csv('data/raw/creditcard.csv')
+    df = pd.read_csv('creditcard.csv')
 except FileNotFoundError:
     print("Error: creditcard.csv not found.")
     exit()
