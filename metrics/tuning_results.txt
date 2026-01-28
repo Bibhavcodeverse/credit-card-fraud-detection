@@ -1,0 +1,32 @@
+Setting up pipeline (Dataset -> Features -> Split -> SMOTE)...
+Using all 34 features for training.
+Applying SMOTE balancing...
+Training shape: (454902, 34)
+Test shape: (56962, 34)
+
+--- Starting Model Tuning ---
+
+Tuning Random Forest...
+Fitting 2 folds for each of 1 candidates, totalling 2 fits
+Best Random Forest Params: {'n_estimators': 10, 'min_samples_split': 2, 'max_features': 'sqrt', 'max_depth': 10}
+
+Tuning XGBoost...
+Fitting 2 folds for each of 1 candidates, totalling 2 fits
+Best XGBoost Params: {'subsample': 0.8, 'scale_pos_weight': 1, 'n_estimators': 10, 'max_depth': 3, 'learning_rate': 0.1}
+
+--- Training Voting Ensemble (RF + XGB) ---
+
+--- Voting Ensemble (RF + XGB) Evaluation (Test Set) ---
+              precision    recall  f1-score   support
+
+           0       1.00      1.00      1.00     56864
+           1       0.30      0.89      0.45        98
+
+    accuracy                           1.00     56962
+   macro avg       0.65      0.94      0.72     56962
+weighted avg       1.00      1.00      1.00     56962
+
+ROC-AUC Score: 0.9805
+Confusion Matrix:
+[[56662   202]
+ [   11    87]]
