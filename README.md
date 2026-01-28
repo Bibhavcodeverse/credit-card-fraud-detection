@@ -133,9 +133,9 @@ We optimized for **Recall** (catching as many frauds as possible) while maintain
 
 ## Confusion Matrix plots
 
-**Ensemble_Learning:** <img width="800" height="600" alt="cm_ensemble_model" src="https://github.com/user-attachments/assets/df145192-21dd-489f-966a-5ac0b2494509" />
-**Random Forest:** <img width="800" height="600" alt="cm_random_forest" src="https://github.com/user-attachments/assets/de182689-3974-40fb-bda3-fcddff10e9a2" />
-**XGBoost:** <img width="800" height="600" alt="cm_xgboost" src="https://github.com/user-attachments/assets/a85b4a09-3dec-4ce1-9812-f6518861352b" />
+**Ensemble_Learning:** <img width="400" height="300" alt="cm_ensemble_model" src="https://github.com/user-attachments/assets/df145192-21dd-489f-966a-5ac0b2494509" />
+**Random Forest:** <img width="400" height="300" alt="cm_random_forest" src="https://github.com/user-attachments/assets/de182689-3974-40fb-bda3-fcddff10e9a2" />
+**XGBoost:** <img width="400" height="300" alt="cm_xgboost" src="https://github.com/user-attachments/assets/a85b4a09-3dec-4ce1-9812-f6518861352b" />
 
 ## PR Curve Comparison
 <img width="1000" height="800" alt="pr_curve_comparison" src="https://github.com/user-attachments/assets/a74eed6e-7237-4f73-b663-973df19c8b8d" />
