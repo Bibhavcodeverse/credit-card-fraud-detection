@@ -101,6 +101,12 @@ We trained a preliminary Random Forest to rank feature importance. To improve mo
 | | | Slightly lower F1-score (0.82) |
 | |  Trade-off | Model prioritizes sensitivity and safety over strict precision |
 
+### 4. Random Forest Configuration
+**Random Forest Strategy:** Trains a parallelized ensemble of 100 deep trees (`n_jobs=-1`, `max_depth=20`) to capture complex non-linear fraud patterns while maintaining generalization.
+
+### 5. XGBoost Configuration
+**XGBoost Strategy:** Leverages gradient boosting with optimized step size (`learning_rate=0.1`) and depth (`max_depth=6`) to sequentially correct errors and maximize predictive accuracy.
+
 ---
 
 The balanced dataset model is preferred for real-world imbalanced classification problems as it significantly improves recall and reduces false negatives, making it safer and more reliable despite a moderate increase in false positives.
