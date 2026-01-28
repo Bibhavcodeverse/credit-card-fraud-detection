@@ -97,6 +97,9 @@ python src/train_xgboost.py
 
 # Train Ensemble (Best of both worlds)
 python src/train_ensemble.py
+
+# Train model_tuning(Ensemble Learning)
+python src/model_tuning.py
 ```
 
 ### 4. Evaluate & Visualize
