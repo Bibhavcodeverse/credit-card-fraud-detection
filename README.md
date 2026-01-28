@@ -103,6 +103,9 @@ We trained a preliminary Random Forest to rank feature importance. To improve mo
 
 ---
 
+The balanced dataset model is preferred for real-world imbalanced classification problems as it significantly improves recall and reduces false negatives, making it safer and more reliable despite a moderate increase in false positives.
+
+
 ##  Installation & Usage
 
 ### Prerequisites
