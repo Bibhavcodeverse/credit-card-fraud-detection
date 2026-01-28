@@ -131,7 +131,7 @@ We optimized for **Recall** (catching as many frauds as possible) while maintain
 | **Ensemble** | 85.71% | 72.41% | 0.79 | 0.983 |
 
 
- ##Confusion Matrix plots
+ ## Confusion Matrix plots
 
 **Ensemble_Learning:** <img width="400" height="400" alt="cm_ensemble_model" src="https://github.com/user-attachments/assets/df145192-21dd-489f-966a-5ac0b2494509" />
 **Random Forest:** <img width="400" height="400" alt="cm_random_forest" src="https://github.com/user-attachments/assets/de182689-3974-40fb-bda3-fcddff10e9a2" />
