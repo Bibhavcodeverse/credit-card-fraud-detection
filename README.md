@@ -34,6 +34,7 @@ credit-card-fraud-ml/
 │   ├── train_ensemble.py         # 4 Model Training: Voting Ensemble
 │   ├── test_pipeline.py          # 5 Inference: Loads models & predicts on test set
 │   └── generate_visualizations.py# 6 Analysis: Generates Confusion Matrices & PR Curves
+    |__faeture_engineering.py    
 │
 ├── models/                   #  Saved Models (.pkl files)
 ├── metrics/                  #  Text reports containing F1, Precision, Recall scores
