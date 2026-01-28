@@ -1,6 +1,6 @@
-# Credit Card Fraud Detection System 🛡️
+# Credit Card Fraud Detection System
 
-## 📌 Project Overview
+##  Project Overview
 This project implements an end-to-end Machine Learning pipeline to detect fraudulent credit card transactions. 
 
 The dataset contains transactions made by credit cards in September 2013 by European cardholders. It presents a significant class imbalance challenge, where frauds account for only **0.172%** of all transactions.
@@ -9,12 +9,15 @@ The dataset contains transactions made by credit cards in September 2013 by Euro
 *   **Robust Data Handling:** Implements **SMOTE** (Synthetic Minority Over-sampling Technique) to handle extreme class imbalance.
 *   **Targeted Feature Engineering:** Adds domain-specific features to capture spending patterns and anomalies.
 *   **Strict Feature Selection:** Uses Random Forest importance to select the top ~24 most predictive features, reducing noise.
+*   **Random Forest Strategy:** Trains a parallelized ensemble of 100 deep trees (n_jobs=-1, max_depth=20) to capture complex non-linear fraud patterns while maintaining generalization.
+*   **XGBoost Strategy:**  Leverages gradient boosting with optimized step size (learning_rate=0.1) and depth (max_depth=6) to sequentially correct errors and maximize predictive accuracy.
 *   **Ensemble Learning:** Combines **Random Forest** and **XGBoost** via a Soft Voting Classifier to maximize detection capability.
 *   **Production-Ready Structure:** Organized code into modular scripts for data processing, training, evaluation, and inference.
+*   **Ensemble Learning with tuning hyperparameter:** experimentation lab designed to automatically find the best hyperparameters for Random Forest and XGBoost models using the dataset.
 
 ---
 
-## 📂 Project Structure
+##  Project Structure
 The project is organized efficiently for reproducibility and scalability:
 
 ```
@@ -28,23 +31,24 @@ credit-card-fraud-ml/
 │   │   └── y_test.csv        # Unseen Test Target
 │
 ├── src/
-│   ├── feature_selection.py      # 1️⃣ Data Pipeline: Loading, Engineering, SMOTE, Saving
-│   ├── train_random_forest.py    # 2️⃣ Model Training: Random Forest
-│   ├── train_xgboost.py          # 2️⃣ Model Training: XGBoost
-│   ├── train_ensemble.py         # 2️⃣ Model Training: Voting Ensemble
-│   ├── test_pipeline.py          # 3️⃣ Inference: Loads models & predicts on test set
-│   └── generate_visualizations.py# 4️⃣ Analysis: Generates Confusion Matrices & PR Curves
+│   ├── feature_selection.py      # 1️ Data Pipeline: Loading, Engineering, SMOTE, Saving
+│   ├── train_random_forest.py    # 2️ Model Training: Random Forest
+│   ├── train_xgboost.py          # 3 Model Training: XGBoost
+│   ├── train_ensemble.py         # 4 Model Training: Voting Ensemble
+│   ├── test_pipeline.py          # 5 Inference: Loads models & predicts on test set
+│   └── generate_visualizations.py# 6 Analysis: Generates Confusion Matrices & PR Curves
+    |__faeture_engineering.py    
 │
-├── models/                   # 💾 Saved Models (.pkl files)
-├── metrics/                  # 📊 Text reports containing F1, Precision, Recall scores
-├── plots/                    # 📈 Generated Charts (CM, ROC, PR Curves)
-├── requirements.txt          # 📦 Python Dependencies
-└── README.md                 # 📖 Project Documentation
+├── models/                   #  Saved Models (.pkl files)
+├── metrics/                  #  Text reports containing F1, Precision, Recall scores
+├── plots/                    #  Generated Charts (CM, ROC, PR Curves)
+├── requirements.txt          #  Python Dependencies
+└── README.md                 #  Project Documentation
 ```
 
 ---
 
-## �️ Methodology & Technical Details
+##  Methodology & Technical Details
 
 ### 1. Feature Engineering
 Since the original dataset consists mostly of PCA-transformed features (`V1`...`V28`), we focused detailed engineering on the non-transformed `Amount` and `Time` columns:
@@ -64,9 +68,45 @@ We trained a preliminary Random Forest to rank feature importance. To improve mo
 *   **Strategy:** We applied **SMOTE** (Synthetic Minority Over-sampling Technique) to create synthetic examples of fraud.
 *   **Crucial Detail:** SMOTE was applied **ONLY to the Training Set**. The Test Set remains practically imbalanced to ensure our evaluation metrics reflect real-world performance.
 
+*   ### Model Comparison (Minority Class – 1)
+
+| Metric (Class 1 – Minority) | Unbalanced Dataset | Balanced Dataset | Why Balanced Dataset Is More Suitable |
+| --------------------------- | ------------------ | ---------------- | ------------------------------------- |
+| Precision                   | **0.96**           | 0.79             | Slightly lower precision is acceptable to improve overall detection of minority cases |
+| Recall                      | 0.74               | **0.86**         | Higher recall ensures more true minority cases are correctly identified |
+| F1-score                    | **0.84**           | 0.82             | Balanced model maintains competitive F1 while improving recall |
+| ROC-AUC                     | 0.95               | **0.98**         | Better class separability and stronger generalization |
+| False Negatives (FN)        | 25                 | **14**           | Fewer missed positive cases, critical for risk-sensitive applications |
+| False Positives (FP)        | **3**              | 22               | Increase in false positives is a trade-off for higher recall and safety 
+
+##  Unbalanced vs Balanced Dataset – Pros & Cons
+
+| Dataset Type | Category | Description |
+|-------------|----------|-------------|
+| **Unbalanced Dataset** |  Pros | Very high precision (0.96), meaning predictions for the minority class are highly accurate |
+| | | Low false positives (3), suitable when false alarms are costly |
+| | | Good ROC-AUC (0.95), indicating reasonable class separability |
+| | | Slightly higher F1-score (0.84) compared to the balanced model |
+| |  Cons | Low recall (0.74), causing many minority class instances to be missed |
+| | | High false negatives (25), risky for critical applications such as fraud or disease detection |
+| | | Biased toward the majority class due to data imbalance |
+| | | Accuracy appears misleadingly high because of class imbalance |
+| |  Risk | Model appears strong but silently ignores a significant portion of minority cases |
+| **Balanced Dataset** |  Pros | High recall (0.86), capturing more minority class instances |
+| | | Reduced false negatives (25 → 14), improving reliability for critical systems |
+| | | Excellent ROC-AUC (0.98), reflecting strong ranking and probability estimation |
+| | | More fair, robust, and generalized model behavior |
+| |  Cons | Lower precision (0.79), resulting in more false alarms |
+| | | Higher false positives (22), increasing verification or review cost |
+| | | Slightly lower F1-score (0.82) |
+| |  Trade-off | Model prioritizes sensitivity and safety over strict precision |
+
 ---
 
-## 🚀 Installation & Usage
+The balanced dataset model is preferred for real-world imbalanced classification problems as it significantly improves recall and reduces false negatives, making it safer and more reliable despite a moderate increase in false positives.
+
+
+##  Installation & Usage
 
 ### Prerequisites
 *   Python 3.8+
@@ -96,6 +136,9 @@ python src/train_xgboost.py
 
 # Train Ensemble (Best of both worlds)
 python src/train_ensemble.py
+
+# Train model_tuning(Ensemble Learning)
+python src/model_tuning.py
 ```
 
 ### 4. Evaluate & Visualize
@@ -113,7 +156,7 @@ python src/test_pipeline.py
 
 ---
 
-## 📊 Model Performance
+##  Model Performance
 
 We optimized for **Recall** (catching as many frauds as possible) while maintaining decent **Precision** (minimizing false alarms).
 
@@ -123,14 +166,31 @@ We optimized for **Recall** (catching as many frauds as possible) while maintain
 | **XGBoost** | 85.71% | 42.25% | 0.57 | 0.976 |
 | **Ensemble** | 85.71% | 72.41% | 0.79 | 0.983 |
 
-**Conclusion:**
+
+ ## Confusion Matrix plots
+
+**Ensemble_Learning:** <img width="350" height="350" alt="cm_ensemble_model" src="https://github.com/user-attachments/assets/df145192-21dd-489f-966a-5ac0b2494509" />
+**Random Forest:** <img width="350" height="350" alt="cm_random_forest" src="https://github.com/user-attachments/assets/de182689-3974-40fb-bda3-fcddff10e9a2" />
+**XGBoost:** <img width="350" height="350" alt="cm_xgboost" src="https://github.com/user-attachments/assets/a85b4a09-3dec-4ce1-9812-f6518861352b" />
+
+## PR Curve Comparison
+<img width="600" height="350" alt="pr_curve_comparison" src="https://github.com/user-attachments/assets/a74eed6e-7237-4f73-b663-973df19c8b8d" />
+
+
+
+
+
+## Conclusion:
 *   **Random Forest** is the best performing single model for this dataset configuration.
 *   All models achieved excellent Recall (~86%), meaning they detect the vast majority of fraud attempts.
 *   The **Ensemble model** provides a robust alternative, offering slightly higher ROC-AUC stability.
 
+# <img width="1536" height="1024" alt="ChatGPT Image Jan 28, 2026, 07_20_11 PM" src="https://github.com/user-attachments/assets/96ca7c21-b342-43b6-bb33-163060727659" />
+
+
 ---
 
-## 📦 Dependencies
+##  Dependencies
 *   `pandas`, `numpy`: Data Manipulation
 *   `scikit-learn`: Modeling & Metrics
 *   `xgboost`: Gradient Boosting Model
