@@ -144,7 +144,7 @@ We optimized for **Recall** (catching as many frauds as possible) while maintain
 
 
 
-**Conclusion:**
+## Conclusion:
 *   **Random Forest** is the best performing single model for this dataset configuration.
 *   All models achieved excellent Recall (~86%), meaning they detect the vast majority of fraud attempts.
 *   The **Ensemble model** provides a robust alternative, offering slightly higher ROC-AUC stability.
